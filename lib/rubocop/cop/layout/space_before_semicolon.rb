@@ -14,6 +14,14 @@ module RuboCop
       class SpaceBeforeSemicolon < Cop
         include SpaceBeforePunctuation
 
+        def_node_matcher :block_with_shadowargs?, <<-PATTERN
+          (block _ (args ... shadowarg) _)
+        PATTERN
+
+        def investigate(processed_source)
+          super unless block_with_shadowargs?(processed_source.ast)
+        end
+
         def autocorrect(space)
           PunctuationCorrector.remove_space(space)
         end

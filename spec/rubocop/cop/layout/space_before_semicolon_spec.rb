@@ -64,4 +64,10 @@ RSpec.describe RuboCop::Cop::Layout::SpaceBeforeSemicolon do
       end
     end
   end
+
+  context 'inside block arguments list' do
+    it 'accepts space before shadowargs delimiter' do
+      expect_no_offenses('lambda { |x ;y, z| }')
+    end
+  end
 end
